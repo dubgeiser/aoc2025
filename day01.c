@@ -19,13 +19,13 @@ int main() {
   int amount;
   while (NULL != (line = readline(stdin))) {
     sscanf(line, "%c%d", &dir, &amount);
+    free(line);
     pos = diff(pos, dir, amount);
     if (0 == pos) {
       p1++;
     }
   }
 
-  free(line);
   printf("%d\n", p1);
   return 0;
 }
