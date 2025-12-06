@@ -47,6 +47,7 @@ int main() {
     p1 += joltage1(line);
     p2 += joltage2(line);
   }
+  free(line);
   printf("%d\n", p1);
   printf("%ld\n", p2);
   return 0;
