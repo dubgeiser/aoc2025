@@ -23,9 +23,6 @@ int64_t joltage2(char *line) {
   int pos = 0;
   int L = strlen(line);
   int64_t max = 0;
-  if (line[L - 1] == '\n') {
-    line[--L] = '\0';
-  }
   while (idx < K) {
     char maxd = '0';
     int maxp = pos;

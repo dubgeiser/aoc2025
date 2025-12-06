@@ -14,6 +14,7 @@ char *readline(FILE *fp) {
 
     // Got the complete line
     if (len > 0 && buf[len - 1] == '\n') {
+      buf[len - 1] = '\0';
       return buf;
     }
     // Line > CHUNCK, allocate more space
