@@ -2,12 +2,9 @@
 #include <stdio.h>
 
 int diff(int pos, char d, int n) {
-  if (d == 'L') {
-    pos -= n % 100;
-  } else {
-    pos += n % 100;
-  }
-  return pos % 100;
+  if (d == 'L')
+    n = -n;
+  return (pos + n) % 100;
 }
 
 int main() {
