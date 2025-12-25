@@ -6,9 +6,6 @@
 
 #define SIZE 50
 
-// strtok_r is POSIX, but _not_ C11, need prototype.
-extern char *strtok_r(char *, const char *, char **);
-
 typedef struct {
   int64_t start;
   int64_t end;
