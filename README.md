@@ -27,3 +27,17 @@ while (r < SIZE && fgets(line, sizeof line, stdin)) {
   r++;
 }
 ```
+
+## Day 11
+Graph with no cycles, path counting only specific paths:
+Given function `int C(from, to)` that count the number of paths between `from` and `to`, you can find all the paths from `a` to `d` that must go via `b` and `c`:
+```
+C(a, b) * C(b, c) * C(c, d) // Combination/Product of all the counts going passing b first and then c
++
+C(a, c) * C(c, b) * C(b, d) // Same, but in the other direction, so passing c first and then b
+```
+Took the time to write a slightly reusable way of splitting strings, in `lib/sstr.c/`
+Found it a much easier puzzle than day 10 (of which, for now, I've only managed to parse the input :-) )
+Part 2 was trickier; first the caching that I didn't add in part 1 and then finding out how to count all the correct paths.
+Then I was thinking about combinations/products and realized that I might just have to multiply all paths in one direction, adding them to all paths in the other direction.
+And let's just say that my company naming servers 'srv' instead of 'svr' did not help either in the beginning :-D
