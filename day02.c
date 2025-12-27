@@ -4,6 +4,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+// strtok_r is POSIX, but _not_ C11, need prototype.
+extern char *strtok_r(char *, const char *, char **);
+
 #define SIZE 50
 
 typedef struct {

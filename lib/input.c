@@ -2,9 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// strtok_r is POSIX, but _not_ C11, need prototype.
-extern char *strtok_r(char *, const char *, char **);
-
 char *readline(FILE *fp) {
   const size_t CHUNK = 128;
   size_t size = CHUNK;

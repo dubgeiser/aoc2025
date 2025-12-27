@@ -1,4 +1,5 @@
 #include "lib/input.c"
+#include "lib/sstr.c"
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -34,45 +35,38 @@ void input_parse_lights(Machine *m, char *s) {
 void input_parse_buttons(Machine *m, char *s) {
   s++;
   s[strlen(s) - 1] = '\0';
-  char *token;
-  char *pstate;
-  token = strtok_r(s, ",", &pstate);
-  while (token != NULL) {
-    m->buttonwires[m->len_b].buttons[m->buttonwires[m->len_b].size++] = atoi(token);
-    token = strtok_r(NULL, ",", &pstate);
-  }
+  char **parts;
+  size_t size;
+  parts = sstr_split(s, ",", &size);
+  for (size_t i = 0; i < size; i++)
+    m->buttonwires[m->len_b].buttons[m->buttonwires[m->len_b].size++] =
+        atoi(parts[i]);
   m->len_b++;
+  sstr_list_free(parts, size);
 }
 
 void input_parse_joltages(Machine *m, char *s) {
-  char *token;
-  char *pstate;
-  token = strtok_r(s, ",", &pstate);
-  while (token != NULL) {
-    if (token[0] == '{')
-      token++;
-    if (token[strlen(token) - 1] == '}')
-      token[strlen(token) - 1] = '\0';
-    m->joltages[m->len_j++] = atoi(token);
-    token = strtok_r(NULL, ",", &pstate);
+  s++;
+  s[strlen(s) - 1] = '\0';
+  size_t size;
+  char **parts = sstr_split(s, ",", &size);
+  for (size_t i = 0; i < size; i++) {
+    m->joltages[m->len_j++] = atoi(parts[i]);
   }
+  sstr_list_free(parts, size);
 }
 
 void input() {
   char *line;
-  char *token;
-  char *pstate;
   while (NULL != (line = readline(stdin))) {
-    token = strtok_r(line, " ", &pstate);
-    input_parse_lights(&machines[M], token);
-    while (NULL != (token = strtok_r(NULL, " ", &pstate))) {
-      if (token[0] == '(')
-        input_parse_buttons(&machines[M], token);
-      else if (token[0] == '{')
-        input_parse_joltages(&machines[M], token);
-      else
-        perror("ERROR: Unknown token");
+    size_t size;
+    char **parts = sstr_split(line, " ", &size);
+    input_parse_lights(&machines[M], parts[0]);
+    input_parse_joltages(&machines[M], parts[size - 1]);
+    for (size_t i = 1; i < size - 1; i++) {
+      input_parse_buttons(&machines[M], parts[i]);
     }
+    sstr_list_free(parts, size);
     free(line);
     M++;
   }
