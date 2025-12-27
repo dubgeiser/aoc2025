@@ -27,9 +27,38 @@ int connections_get(char *in) {
   return -1;
 }
 
+typedef struct {
+  char *in;
+  char *out;
+  size_t total;
+} ConnectionCount;
+
+// TODO is this enough, maybe have a PathCount * and cache_size?
+ConnectionCount cache[MAX_DEVICES * MAX_DEVICES];
+size_t cache_size;
+
+int64_t cache_get(char *in, char *out) {
+  for (size_t i = 0; i < cache_size; i++) {
+    if (in == cache[i].in && out == cache[i].out)
+      return cache[i].total;
+  }
+  return -1;
+}
+
+void cache_set(char *in, char *out, size_t total) {
+  cache[cache_size].in = in;
+  cache[cache_size].out = out;
+  cache[cache_size].total = total;
+  cache_size++;
+}
+
 size_t count_paths(char *in, char *out) {
   if (strcmp(in, out) == 0)
     return 1;
+  int64_t cached = cache_get(in, out);
+  if (cached >= 0) {
+    return (size_t)cached;
+  }
   int curr = connections_get(in);
   if (curr == -1)
     return 0;
@@ -37,6 +66,7 @@ size_t count_paths(char *in, char *out) {
   for (size_t i = 0; i < cnx[curr].size; i++) {
     total += count_paths(cnx[curr].outs[i], out);
   }
+  cache_set(in, out, total);
   return total;
 }
 
@@ -59,6 +89,18 @@ int main() {
   }
 
   printf("%ld\n", count_paths("you", "out"));
+
+  // We're assuming there are no cycles in our connections.
+  // We can sum all the paths from srv->dac->fft->out
+  // and all the paths from srv->fft->dac->out
+  //
+  // "All the paths from srv->dac->fft->out" translates to
+  // a product of all path counts: srv->dac * dac->fft * fft->out
+  size_t p2 = count_paths("svr", "dac") * count_paths("dac", "fft") *
+              count_paths("fft", "out");
+  p2 += count_paths("svr", "fft") * count_paths("fft", "dac") *
+        count_paths("dac", "out");
+  printf("%ld\n", p2);
 
   // Final Cleanup
   for (size_t i = 0; i < C; i++) {
