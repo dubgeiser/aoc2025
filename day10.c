@@ -4,28 +4,31 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#define MAX_MACHINES 160
-#define MAX 20
+#define MAX_MACHINES 158
+#define MAX_LIGHTS 10
+#define MAX_BUTTONS 13
+#define MAX_BWIRES 10
+#define MAX_JOLTAGES 10
 
 typedef struct {
-  int buttons[MAX];
-  size_t size;
+  int buttons[MAX_BUTTONS];
+  int size;
 } ButtonWiring;
 
 typedef struct {
-  bool lights[MAX];
-  size_t len_l;
-  ButtonWiring buttonwires[MAX];
-  size_t len_b;
-  int joltages[MAX];
-  size_t len_j;
+  bool lights[MAX_LIGHTS];
+  int len_l;
+  ButtonWiring buttonwires[MAX_BWIRES];
+  int len_b;
+  int joltages[MAX_JOLTAGES];
+  int len_j;
 } Machine;
 
 Machine machines[MAX_MACHINES];
-size_t M = 0;
+int M = 0;
 
 void input_parse_lights(Machine *m, char *s) {
-  for (size_t i = 0; i < strlen(s); i++) {
+  for (int i = 0; i < (int)strlen(s); i++) {
     if (s[i] == '[' || s[i] == ']')
       continue;
     m->lights[m->len_l++] = (s[i] == '#');
@@ -36,9 +39,9 @@ void input_parse_buttons(Machine *m, char *s) {
   s++;
   s[strlen(s) - 1] = '\0';
   char **parts;
-  size_t size;
-  parts = sstr_split(s, ",", &size);
-  for (size_t i = 0; i < size; i++)
+  int size;
+  parts = sstr_split(s, ",", (size_t *)&size);
+  for (int i = 0; i < size; i++)
     m->buttonwires[m->len_b].buttons[m->buttonwires[m->len_b].size++] =
         atoi(parts[i]);
   m->len_b++;
@@ -48,9 +51,9 @@ void input_parse_buttons(Machine *m, char *s) {
 void input_parse_joltages(Machine *m, char *s) {
   s++;
   s[strlen(s) - 1] = '\0';
-  size_t size;
-  char **parts = sstr_split(s, ",", &size);
-  for (size_t i = 0; i < size; i++) {
+  int size;
+  char **parts = sstr_split(s, ",", (size_t *)&size);
+  for (int i = 0; i < size; i++) {
     m->joltages[m->len_j++] = atoi(parts[i]);
   }
   sstr_list_free(parts, size);
@@ -59,11 +62,11 @@ void input_parse_joltages(Machine *m, char *s) {
 void input() {
   char *line;
   while (NULL != (line = readline(stdin))) {
-    size_t size;
-    char **parts = sstr_split(line, " ", &size);
+    int size;
+    char **parts = sstr_split(line, " ", (size_t *)&size);
     input_parse_lights(&machines[M], parts[0]);
     input_parse_joltages(&machines[M], parts[size - 1]);
-    for (size_t i = 1; i < size - 1; i++) {
+    for (int i = 1; i < size - 1; i++) {
       input_parse_buttons(&machines[M], parts[i]);
     }
     sstr_list_free(parts, size);
@@ -74,16 +77,16 @@ void input() {
 
 void print_machine(Machine m) {
   printf("[");
-  for (size_t i = 0; i < m.len_l; i++) {
+  for (int i = 0; i < m.len_l; i++) {
     if (i > 0)
       printf(",");
     printf("%d", m.lights[i]);
   }
   printf("]");
 
-  for (size_t i = 0; i < m.len_b; i++) {
+  for (int i = 0; i < m.len_b; i++) {
     printf(" (");
-    for (size_t j = 0; j < m.buttonwires[i].size; j++) {
+    for (int j = 0; j < m.buttonwires[i].size; j++) {
       if (j > 0)
         printf(",");
       printf("%d", m.buttonwires[i].buttons[j]);
@@ -92,7 +95,7 @@ void print_machine(Machine m) {
   }
 
   printf(" {");
-  for (size_t i = 0; i < m.len_j; i++) {
+  for (int i = 0; i < m.len_j; i++) {
     if (i > 0)
       printf(",");
     printf("%d", m.joltages[i]);
@@ -102,8 +105,8 @@ void print_machine(Machine m) {
 
 int main() {
   input();
-  for (size_t i = 0; i < M; i++) {
-    print_machine(machines[i]);
+  for (int m = 0; m < M; m++) {
+    print_machine(machines[m]);
   }
   printf("\n");
   return 0;
