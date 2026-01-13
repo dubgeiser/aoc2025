@@ -2,6 +2,16 @@
 Doing AoC 2025 in C.
 It's been about 35 years since I've programmed anything in C :seenoevil:
 
+## Building and running a puzzle, for instance puzzle of day 5:
+```sh
+./build.sh day05
+./build/day05 < data/day05.dat
+```
+Vim: hit `<Leader>t` after sourcing:
+```vim
+:so project.vim
+```
+
 ## Day 2
 `strtok_r()` is reentrant, meaning it is thread safe and it can be used in _nested_ parsing situations.
 However, `strtok_r()` is _not_ C11 compliant (see `man 3 strtok_r`) and as such needs a prototype:
