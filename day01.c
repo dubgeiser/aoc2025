@@ -19,7 +19,7 @@ int turn(int pos, char d, int n) {
   return count;
 }
 
-int main() {
+int main(void) {
   int p1 = 0;
   int p2 = 0;
   char *line;

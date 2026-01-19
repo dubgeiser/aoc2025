@@ -178,7 +178,7 @@ void input_parse_joltages(Machine *m, char *s) {
   sstr_list_free(parts, size);
 }
 
-void input() {
+void input(void) {
   char *line;
   while (NULL != (line = readline(stdin))) {
     int size;
@@ -249,7 +249,7 @@ int min_presses(Machine m) {
   return (result == INT_MAX) ? -1 : result;
 }
 
-int main() {
+int main(void) {
   input();
   int p1 = 0;
   for (int m = 0; m < M; m++) {

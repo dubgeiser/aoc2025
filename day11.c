@@ -70,7 +70,7 @@ size_t count_paths(char *in, char *out) {
   return total;
 }
 
-int main() {
+int main(void) {
   char *line;
   C = 0;
   while (NULL != (line = readline(stdin))) {

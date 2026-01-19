@@ -39,7 +39,7 @@ int64_t joltage2(char *line) {
   return max;
 }
 
-int main() {
+int main(void) {
   int p1 = 0;
   int64_t p2 = 0;
   char *line;
@@ -49,6 +49,6 @@ int main() {
     free(line);
   }
   printf("%d\n", p1);
-  printf("%ld\n", p2);
+  printf("%lld\n", p2);
   return 0;
 }

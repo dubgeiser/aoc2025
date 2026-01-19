@@ -12,7 +12,7 @@ int64_t area(Pos a, Pos b) {
   return (labs(a.x - b.x) + 1) * (labs(a.y - b.y) + 1);
 }
 
-int main() {
+int main(void) {
   int64_t p1 = 0;
   int64_t a;
   Pos tiles[500];
@@ -20,7 +20,7 @@ int main() {
   char *line;
   T = 0;
   while (NULL != (line = readline(stdin))) {
-    sscanf(line, "%ld,%ld", &tiles[T].x, &tiles[T].y);
+    sscanf(line, "%lld,%lld", &tiles[T].x, &tiles[T].y);
     free(line);
     T++;
   }
@@ -32,6 +32,6 @@ int main() {
       }
     }
   }
-  printf("%ld\n", p1);
+  printf("%lld\n", p1);
   return 0;
 }
