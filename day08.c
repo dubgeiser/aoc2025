@@ -118,18 +118,18 @@ int cmpcircuits(const void *a, const void *b) {
 }
 
 void printdistance(Distance d) {
-  printf("(%d, %d, %d) -> (%d, %d, %d): %lld\n", boxes[d.b1].x, boxes[d.b1].y,
+  printf("(%d, %d, %d) -> (%d, %d, %d): %ld\n", boxes[d.b1].x, boxes[d.b1].y,
          boxes[d.b1].z, boxes[d.b2].x, boxes[d.b2].y, boxes[d.b2].z, d.d);
 }
 
-int main(void) {
+int main() {
   int p1;
   char *line;
 
   // Takes too much memory to reserve an array on the stack.
   // Should use a heap to only store the shortest MAX_BOXES distances.
   Distance *distances =
-      malloc(sizeof(Distance) * ((int)pow(MAX_BOXES, 2) / 2 - MAX_BOXES / 2));
+      malloc(sizeof(Distance) * (pow(MAX_BOXES, 2) / 2 - MAX_BOXES / 2));
 
   int D = 0;
   while (NULL != (line = readline(stdin))) {

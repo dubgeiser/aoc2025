@@ -78,7 +78,7 @@ int64_t sum_silly_ids(Range r) {
   return sum;
 }
 
-int main(void) {
+int main() {
   int64_t p1 = 0;
   int64_t p2 = 0;
   Range ranges[SIZE];
@@ -103,8 +103,8 @@ int main(void) {
     p2 += sum_silly_ids(ranges[i]);
   }
 
-  printf("%lld\n", p1);
-  printf("%lld\n", p2);
+  printf("%ld\n", p1);
+  printf("%ld\n", p2);
 
   return 0;
 }

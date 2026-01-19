@@ -96,7 +96,7 @@ int64_t qdownward(uint row, uint col) {
   return 1;
 }
 
-int main(void) {
+int main() {
   uint sr;
   uint sc;
   char *line;
@@ -118,6 +118,6 @@ int main(void) {
   downward(sr, sc);
   printf("%d\n", V);
 
-  printf("%lld\n", qdownward(sr, sc));
+  printf("%ld\n", qdownward(sr, sc));
   return 0;
 }

@@ -22,7 +22,7 @@ int cmprange(const void *a, const void *b) {
   return 0;
 }
 
-int main(void) {
+int main() {
   int p1 = 0;
   Range ranges[MAX_RANGE];
   int R = 0;
@@ -37,10 +37,10 @@ int main(void) {
       continue;
     }
     if (is_range) {
-      sscanf(line, "%lld-%lld", &ranges[R].start, &ranges[R].end);
+      sscanf(line, "%ld-%ld", &ranges[R].start, &ranges[R].end);
       R++;
     } else {
-      sscanf(line, "%lld", &ingredients[I]);
+      sscanf(line, "%ld", &ingredients[I]);
       I++;
     }
     free(line);
@@ -89,5 +89,5 @@ int main(void) {
   }
   // Do not forget the last range
   p2 += end - start + 1;
-  printf("%lld\n", p2);
+  printf("%ld\n", p2);
 }

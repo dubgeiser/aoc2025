@@ -40,7 +40,7 @@ int reduce(int grid[SIZE][SIZE], int gridn[SIZE][SIZE]) {
   return count;
 }
 
-int main(void) {
+int main() {
   int p1, p2 = 0;
   int grid[SIZE][SIZE] = {0};
   int gridn[SIZE][SIZE] = {0};

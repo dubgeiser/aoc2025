@@ -34,7 +34,7 @@ int consume_row(char *line, int64_t row[]) {
 int64_t add(int64_t a, int64_t b) { return a + b; }
 int64_t mul(int64_t a, int64_t b) { return a * b; }
 
-int main(void) {
+int main() {
   int64_t p1 = 0;
   char *line;
   int64_t sheet[MAX_ROWS][MAX_COLS];
@@ -73,7 +73,7 @@ int main(void) {
     }
     p1 += tot;
   }
-  printf("%lld\n", p1);
+  printf("%ld\n", p1);
 
   // Part 2
   char cur;
@@ -113,5 +113,5 @@ int main(void) {
     if (c == gridW - 1)
       p2 += subtotal;
   }
-  printf("%lld\n", p2);
+  printf("%ld\n", p2);
 }
